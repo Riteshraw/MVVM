@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import com.example.ritesh.myapplication.repository.MainRepo;
 import com.example.ritesh.myapplication.TestApp;
 
+import java.util.ArrayList;
+
 public class MainActivityViewModel extends AndroidViewModel {
     private final MainRepo mainRepo;
 
@@ -16,8 +18,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         mainRepo = testApp.getMainRepoInstance();
     }
 
-    public void getCityList(){
-        mainRepo.getCityList();
+    public ArrayList<String> getCityList(){
+        return mainRepo.getCityList();
     }
 
 }

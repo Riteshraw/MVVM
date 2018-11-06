@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
 
+import com.example.ritesh.myapplication.dao.City;
 import com.example.ritesh.myapplication.repository.MainRepo;
 import com.example.ritesh.myapplication.TestApp;
 
@@ -18,7 +19,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         mainRepo = testApp.getMainRepoInstance();
     }
 
-    public ArrayList<String> getCityList(){
+    public ArrayList<City> getCityList(){
         return mainRepo.getCityList();
     }
 

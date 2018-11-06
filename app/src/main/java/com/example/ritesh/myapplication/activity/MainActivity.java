@@ -1,19 +1,18 @@
 package com.example.ritesh.myapplication.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.example.ritesh.myapplication.adapter.CustomSpinnerAdapter;
 import com.example.ritesh.myapplication.dao.City;
 import com.example.ritesh.myapplication.databinding.ActivityMainBinding;
 import com.example.ritesh.myapplication.viewmodel.MainActivityViewModel;
@@ -43,33 +42,49 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         populateSpinner();
 
-//        mBinding.setSpinnerAdapter(city);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        MyClickHandlers handlers = new MyClickHandlers(this);
+        mBinding.setHandlers(handlers);
 
     }
 
     private void populateSpinner() {
-        ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, mainViewModel.getCityList());
+        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, R.layout.layout_custom_spinner, mainViewModel.getCityList());
         mBinding.setSpinnerAdapter(adapter);
-//        spinner.setAdapter(sAdapter);
+//        spinner.setAdapter(adapter);
     }
 
-    public void onCheckChanged(CompoundButton buttonView, boolean isChecked) {
-        City city = new City(3, "TEST Selection");
-        mBinding.setCity(city);
+    public class MyClickHandlers {
+        Context context;
+
+        public MyClickHandlers(Context context) {
+            this.context = context;
+        }
+
+
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (position != 0) {
+                mBinding.setCity(new City(position, "" + position + "\n " + id));
+            }
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+
+        public void onCheckChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked)
+                mBinding.setCity(new City(2, "Checked"));
+            else
+                mBinding.setCity(new City(0, "UnChecked"));
+        }
+
+        public void onSpinnerClick(View view, City city) {
+            if (city != null)
+                mBinding.setCity(new City(2, "Checked"));
+            else
+                mBinding.setCity(new City(0, "UnChecked"));
+        }
+
     }
 
 }

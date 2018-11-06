@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="city"
             type="com.example.ritesh.myapplication.dao.City" />
+
         <variable
             name="mainActivity"
             type="com.example.ritesh.myapplication.activity.MainActivity" />
+
+        <variable
+            name="handlers"
+            type="com.example.ritesh.myapplication.activity.MainActivity.MyClickHandlers" />
+
         <variable
             name="spinnerAdapter"
             type="android.widget.ArrayAdapter" />
@@ -28,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{city.name}"
+            android:onClick="@{(v)->handlers.onSpinnerClick(v,city)}"
             android:textSize="15sp" />
 
         <Spinner
@@ -35,13 +42,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:prompt="@string/spinner_title"
+            android:onItemSelected="@{handlers::onItemSelected}"
+            android:onNothingSelected="@{handlers::onNothingSelected}"
             app:adapter="@{spinnerAdapter}"></Spinner>
 
         <CheckBox
             android:id="@+id/chk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onCheckedChanged="@{mainActivity::onCheckChanged}"
+            android:onCheckedChanged="@{handlers::onCheckChanged}"
             android:text="@{city.name}" />
 
     </LinearLayout>
